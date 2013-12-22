@@ -5,30 +5,6 @@
 #include <thread>
 #include <string>
 
-template< typename Lambda >
-class ScopeGuard
-{
-public:
-  ScopeGuard(Lambda iLambda)
-    : mLambda(std::move(iLambda))
-  {
-  }
-
-  ~ScopeGuard()
-  {
-    mLambda();
-  }
-
-private:
-  Lambda mLambda;
-};
-
-template< typename Lambda >
-ScopeGuard< Lambda > makeScopeGuard(const Lambda &iLambda)
-{
-  return ScopeGuard< Lambda >(iLambda);
-}
-
 class Statement
 {
 public:
