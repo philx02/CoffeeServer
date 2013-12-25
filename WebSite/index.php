@@ -1,4 +1,4 @@
-<? 
+<?php
 session_start(); 
 include("passwords.php"); 
 
@@ -15,5 +15,5 @@ else
   echo 'Password: <input type="password" name="password" />'; 
   echo '<input type="submit" value="Login" />'; 
   echo '</form>'; 
-}; 
+}
 ?>
