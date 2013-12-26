@@ -1,3 +1,0 @@
-CREATE TABLE members (id INTEGER PRIMARY KEY, userid TEXT, username TEXT, password TEXT, name TEXT, email TEXT, balance_cents NUMERIC);
-CREATE TABLE transactions (date_time TEXT, member_id NUMERIC, amount NUMERIC);
-CREATE TABLE numeric_parameters (name TEXT, value NUMERIC);
