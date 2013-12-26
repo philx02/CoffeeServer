@@ -73,7 +73,7 @@ public:
     Statement(mSqlite, std::string("UPDATE members SET balance_cents = balance_cents - ").append(std::to_string(wUnitCostCents)).append(" WHERE userid = \"").append(iUserId).append("\";")).runOnce();
     if (sqlite3_changes(mSqlite) > 0)
     {
-      Statement(mSqlite, std::string("INSERT INTO transactions SELECT null, datetime('now', 'localtime'), id, -").append(std::to_string(wUnitCostCents)).append(" FROM members WHERE userid = \"").append(iUserId).append("\";")).runOnce();
+      Statement(mSqlite, std::string("INSERT INTO transactions SELECT null, datetime('now', 'localtime'), id, 1, -").append(std::to_string(wUnitCostCents)).append(" FROM members WHERE userid = \"").append(iUserId).append("\";")).runOnce();
       return true;
     }
     return false;

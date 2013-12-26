@@ -6,7 +6,13 @@ include("header.php");
 <table border="1" width=1200>
 <tr>
 <td width=* colspan=2>
-Current balance: 
+<?php
+$dbHandle = new SQLite3('test.db', SQLITE3_OPEN_READWRITE);
+$stmt = "SELECT balance_cents FROM members WHERE id = ".$_SESSION["id_logged"];
+echo $stmt."<br/>";
+$result = $dbHandle->query($stmt);
+echo "Current balance: ".($result->fetchArray()["balance_cents"]/100)."$.";
+?>
 </td>
 </tr>
 <tr>
