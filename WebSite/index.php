@@ -5,13 +5,13 @@ if (array_key_exists("ac", $_POST) && $_POST["ac"] == "log")
 {
   /// do after login form is submitted
   $dbHandle = new SQLite3('test.db', SQLITE3_OPEN_READWRITE);
-  $stmt = "SELECT password FROM members WHERE username = '".$_POST["username"]."'";
+  $stmt = "SELECT id, password FROM members WHERE username = '".$_POST["username"]."'";
   $result = $dbHandle->query($stmt);
   $shaPasswordFromDb = $result->fetchArray()["password"];
   if ($shaPasswordFromDb == sha1($_POST["password"]))
   {
-    $_SESSION["logged"] = $_POST["username"];
-    header("Location: main.php"); 
+    $_SESSION["id_logged"] = $result->fetchArray()["id"];
+    header("Location: main.php?".SID);
   }    
   else
   { 

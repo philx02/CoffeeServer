@@ -7,9 +7,27 @@ if (array_key_exists("ac", $_POST))
 {
   if ($_POST["ac"] == "member_deposit")
   {
-    $amount_cents = floor($_POST["amount"] * 100);
-    $stmt = "UPDATE members SET balance_cents = balance_cents + ".$amount_cents." WHERE userid = ".$_POST["memberid"];
-    echo $stmt."<br/>";
+    if (is_numeric($_POST["amount"]))
+    {
+      $amount_cents = floor($_POST["amount"] * 100);
+      $stmt = "UPDATE members SET balance_cents = balance_cents + ".$amount_cents." WHERE id = ".$_POST["memberid"];
+      //echo $stmt."<br/>";
+      if ($dbHandle->exec($stmt))
+      {
+        $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) VALUES (datetime('now', 'localtime'), ".$_POST["memberid"].", 0, ".$amount_cents.")";
+        //echo $stmt."<br/>";
+        if ($dbHandle->exec($stmt))
+        {
+          $stmt = "SELECT balance_cents FROM members WHERE id = ".$_POST["memberid"];
+          $result = $dbHandle->query($stmt);
+          echo "<p>Deposit of ".$_POST["amount"]."$ completed successfully, new balance is ".($result->fetchArray()["balance_cents"]/100)."$.</p>";
+        }
+      }
+    }
+    else
+    {
+      echo "<p>Invalid value for deposit amount (".$_POST["amount"].").</p>";
+    }
   }
   else
   {
@@ -21,6 +39,11 @@ if (array_key_exists("ac", $_POST))
 <form action="member_deposit.php" method="post">
 <input type="hidden" name="ac" value="member_deposit">
 <table>
+<tr>
+<td>Member deposit</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
 <tr>
 <td>Name</td>
 <td>Amount</td>
