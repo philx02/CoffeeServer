@@ -2,7 +2,7 @@
 include("header.php");
 
 $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
-$stmt = "SELECT name FROM members WHERE id = ".$_GET["id"];
+$stmt = "SELECT name FROM members WHERE id = ".$_GET["memberid"];
 $result = $dbHandle->querySingle($stmt);
 ?>
 
@@ -16,9 +16,9 @@ $result = $dbHandle->querySingle($stmt);
 <th width="60">Balance</th>
 </tr>
 <?php
-$stmt = "SELECT balance_cents FROM members WHERE id = ".$_GET["id"];
+$stmt = "SELECT balance_cents FROM members WHERE id = ".$_GET["memberid"];
 $balance_cents = $dbHandle->querySingle($stmt);
-$stmt = "SELECT date_time, (SELECT name FROM transactions_name WHERE transactions_name.transaction_type = transactions.transaction_type) as transaction_name, amount_cents FROM transactions WHERE member_id = ".$_GET["id"]." ORDER BY date_time DESC";
+$stmt = "SELECT date_time, (SELECT name FROM transactions_name WHERE transactions_name.transaction_type = transactions.transaction_type) as transaction_name, amount_cents FROM transactions WHERE member_id = ".$_GET["memberid"]." ORDER BY date_time DESC";
 $result = $dbHandle->query($stmt);
 while ($row = $result->fetchArray())
 {
