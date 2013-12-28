@@ -4,9 +4,9 @@ session_start();
 if (array_key_exists("ac", $_POST) && $_POST["ac"] == "log")
 {
   /// do after login form is submitted
-  $dbHandle = new SQLite3('test.db', SQLITE3_OPEN_READWRITE);
+  $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
   $stmt = "SELECT id, password FROM members WHERE username = '".$_POST["username"]."'";
-  $result = $dbHandle->query($stmt)->fetchArray();
+  $result = $dbHandle->querySingle($stmt);
   $shaPasswordFromDb = $result["password"];
   if ($shaPasswordFromDb == sha1($_POST["password"]))
   {

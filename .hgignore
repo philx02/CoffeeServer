@@ -4,3 +4,4 @@ Debug/*
 *.suo
 test.db
 *.opensdf
+*.vcxproj.user

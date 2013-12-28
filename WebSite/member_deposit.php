@@ -1,7 +1,7 @@
 <?php
 include("header.php");
 
-$dbHandle = new SQLite3('test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
 
 if (array_key_exists("ac", $_POST))
 {
@@ -19,8 +19,8 @@ if (array_key_exists("ac", $_POST))
         if ($dbHandle->exec($stmt))
         {
           $stmt = "SELECT balance_cents FROM members WHERE id = ".$_POST["memberid"];
-          $result = $dbHandle->query($stmt);
-          echo "<p>Deposit of ".$_POST["amount"]."$ completed successfully, new balance is ".($result->fetchArray()["balance_cents"]/100)."$.</p>";
+          $result = $dbHandle->querySingle($stmt);
+          echo "<p>Deposit of ".$_POST["amount"]."$ completed successfully, new balance is ".number_format((float)($result/100), 2)."$.</p>";
         }
       }
     }
@@ -36,14 +36,11 @@ if (array_key_exists("ac", $_POST))
 }
 ?>
 
+<p>Member deposit</p>
+
 <form action="member_deposit.php" method="post">
 <input type="hidden" name="ac" value="member_deposit">
 <table>
-<tr>
-<td>Member deposit</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
 <tr>
 <td>Name</td>
 <td>Amount</td>
