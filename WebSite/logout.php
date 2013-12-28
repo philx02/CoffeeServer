@@ -3,4 +3,4 @@ session_start();
 session_destroy();
 ?>
 
-<a href=".">login</a>
+You have been properly logged out. <a href=".">Log back in</a>.

@@ -10,10 +10,10 @@ $result = $dbHandle->querySingle($stmt);
 
 <table border="1">
 <tr>
-<th>Time</th>
-<th>Type</th>
-<th>Amount</th>
-<th>Balance</th>
+<th width="200">Time</th>
+<th width="200">Type</th>
+<th width="60">Amount</th>
+<th width="60">Balance</th>
 </tr>
 <?php
 $stmt = "SELECT balance_cents FROM members WHERE id = ".$_GET["id"];
