@@ -29,4 +29,4 @@ while ($row = $result->fetchArray())
 </table>
 </form>
 
-<iframe name="history_frame" frameborder="0" scrolling="auto" width=900 height=800 marginwidth=5 marginheight=5></iframe>
+<iframe name="history_frame" frameborder="0" scrolling="auto" width="100%" height=800 marginwidth=5 marginheight=5></iframe>
