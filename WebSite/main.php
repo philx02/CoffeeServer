@@ -3,15 +3,22 @@ include("header.php");
 ?>
 
 <div align="center">
-<table border="1" width="1200">
+<table border="1" width="100%">
 <tr>
 <td width=* colspan=2>
 <?php
 $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
 $stmt = "SELECT balance_cents FROM members WHERE id = ".$_SESSION["id_logged"];
-$result = $dbHandle->querySingle($stmt);
-echo "Current balance: ".number_format((float)($result/100), 2)."$";
+$userBalanceCents = $dbHandle->querySingle($stmt);
+$stmt = "SELECT sum(balance_cents) FROM members";
+$workingCapitalCents = $dbHandle->querySingle($stmt);
 ?>
+<table width="100%">
+<tr>
+<td align="left">Current balance: <?php echo number_format((float)($userBalanceCents/100), 2); ?>$</td>
+<td align="right">Working capital: <?php echo number_format((float)($workingCapitalCents/100), 2); ?>$</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
@@ -31,7 +38,7 @@ EOT;
 ?>
 </td>
 <td>
-<iframe name="inlineframe" src="transaction_history.php?<?php echo "memberid=".$_SESSION["id_logged"]; ?>" frameborder="0" scrolling="auto" width=1050 height=1000 marginwidth=5 marginheight=5></iframe> 
+<iframe name="inlineframe" src="transaction_history.php?<?php echo "memberid=".$_SESSION["id_logged"]; ?>" frameborder="0" scrolling="auto" width="100%" height="1000" marginwidth=5 marginheight=5></iframe> 
 </td>
 </tr>
 </table>
