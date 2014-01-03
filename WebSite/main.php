@@ -30,6 +30,7 @@ $workingCapitalCents = $dbHandle->querySingle($stmt);
 if (array_key_exists("admin", $_SESSION) && $_SESSION["admin"] == 1)
 {
   echo <<<EOT
+<p><a href="add_member.php" target="inlineframe">Add Member</a></p>
 <p><a href="manage_members.php" target="inlineframe">Manage Members</a></p>
 <p><a href="member_deposit.php" target="inlineframe">Member Deposit</a></p>
 <p><a href="member_transaction_history.php" target="inlineframe">Member's Transaction History</a></p>

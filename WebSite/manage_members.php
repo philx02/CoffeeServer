@@ -1,70 +1,112 @@
+<script language="javascript">
+var DeleteHit = false;
+var RadioHit = false;
+var PrivilegeHit = false;
+function ConfirmDelete()
+{
+  if (RadioHit)
+  {
+    if (DeleteHit)
+    {
+      if (confirm("Are you sure to delete this member's account?"))
+      {
+        return true;
+      }
+      else
+      {
+        DeleteHit = false;
+        PrivilegeHit = false;
+        return false;
+      }
+    }
+    else if (PrivilegeHit)
+    {
+      return true;
+    }
+    else
+    {
+      DeleteHit = false;
+      PrivilegeHit = false;
+      return false;
+    }
+  }
+  else
+  {
+    alert("No member selected.");
+    DeleteHit = false;
+    PrivilegeHit = false;
+    return false;
+  }
+}
+function DeleteClick()
+{
+  DeleteHit = true;
+}
+function RadioClick()
+{
+  RadioHit = true;
+}
+function PrivilegeClick()
+{
+  PrivilegeHit = true;
+}
+</script>
+
 <?php
 include("header.php");
 $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
 
-function member_addition($dbHandle, $name, $username, $rfid, $initialDeposit)
+function grant_admin($dbHandle, $memberId)
 {
-  $email = $username."@cae.com";
-  if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-  {
-    echo "<p>Invalid value for email address (".$email.").</p>";
-    return;
-  }
-  if (!is_numeric($initialDeposit))
-  {
-    echo "<p>Invalid value for initial deposit amount (".$initialDeposit.").</p>";
-    return;
-  }
-  $initialDepositCents = floor($initialDeposit * 100);
-  $password = substr(str_shuffle(md5(time())), 0, 8);
-  $passwordSha1 = sha1($password);
-  $stmt = "INSERT INTO members (userid, username, password, name, email, balance_cents, admin) VALUES ('".$rfid."', '".$username."', '".$passwordSha1."', '".$name."', '".$email."', ".$initialDepositCents.", 0)";
-  //echo $stmt."<br/>";
+  $stmt = "SELECT name, balance_cents FROM members WHERE id = ".$memberId;
+  $name = $dbHandle->querySingle($stmt);
+  $stmt = "UPDATE members SET admin = 1 WHERE id = ".$memberId;
   if ($dbHandle->exec($stmt))
   {
-    $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) SELECT datetime('now', 'localtime'), id, 0, ".$initialDepositCents." FROM members WHERE userid = '".$rfid."'";
-    //echo $stmt."<br/>";
-    if ($dbHandle->exec($stmt))
-    {
-      echo "<p>Addition of user ".$name." completed successfully.</p>";
-    }
+    echo "<p>Admin privilege grant for ".$name." completed successfully.</p>";
   }
 }
 
-if (array_key_exists("ac", $_POST) && $_POST["ac"] == "member_addition")
+function revoke_admin($dbHandle, $memberId)
 {
-  member_addition($dbHandle, $_POST["name"], $_POST["username"], $_POST["rfid"], $_POST["initial_deposit"]);
+  $stmt = "SELECT name, balance_cents FROM members WHERE id = ".$memberId;
+  $name = $dbHandle->querySingle($stmt);
+  $stmt = "UPDATE members SET admin = 0 WHERE id = ".$memberId;
+  if ($dbHandle->exec($stmt))
+  {
+    echo "<p>Admin privilege revokation for ".$name." completed successfully.</p>";
+  }
+}
+
+function delete_member($dbHandle, $memberId)
+{
+  $stmt = "SELECT name, balance_cents FROM members WHERE id = ".$memberId;
+  $result = $dbHandle->querySingle($stmt, true);
+  $stmt = "DELETE FROM members WHERE id = ".$memberId;
+  if ($dbHandle->exec($stmt))
+  {
+    echo "<p>Deletion of ".$result["name"]."'s account completed successfully. The balance was ".number_format((float)abs($result["balance_cents"]/100), 2)."$.</p>";
+  }
+}
+
+if (array_key_exists("grant_privilege", $_POST))
+{
+  grant_admin($dbHandle, $_POST["memberid"]);
+}
+else if (array_key_exists("revoke_privilege", $_POST))
+{
+  revoke_admin($dbHandle, $_POST["memberid"]);
+}
+else if (array_key_exists("delete_member", $_POST))
+{
+  delete_member($dbHandle, $_POST["memberid"]);
 }
 ?>
 
 <p>Members management</p>
 
-<hr>
-
-<p>Add member</p>
-
-<form action="manage_members.php" method="post">
-<input type="hidden" name="ac" value="member_addition">
-<table>
-<tr>
-<td>Name</td>
-<td>Username</td>
-<td>RFID</td>
-<td>Initial deposit</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td><input type="text" name="name" /></td>
-<td><input type="text" name="username" /></td>
-<td><input type="text" name="rfid" /></td>
-<td><input type="text" name="initial_deposit" /></td>
-<td><input type="submit" name="Submit" /></td>
-</tr>
-</table>
-</form>
-
-<hr>
-
+<a href="add_member.php">Add member</a>
+<form action="manage_members.php" onSubmit="return ConfirmDelete()"  method="post">
 <table border="1">
 <tr>
 <th width="25">&nbsp;</th>
@@ -78,7 +120,7 @@ $result = $dbHandle->query($stmt);
 while ($row = $result->fetchArray())
 {
   echo "<tr>";
-  echo "<td><input type='radio' name='memberid' value='".$row["id"]."' /></td>";
+  echo "<td><input onClick=\"return RadioClick()\" type='radio' name='memberid' value='".$row["id"]."' /></td>";
   echo "<td>".$row["name"]."</td>";
   echo "<td>".number_format((float)abs($row["balance_cents"]/100), 2)."</td>";
   echo "<td>".$row["admin"]."</td>";
@@ -86,3 +128,7 @@ while ($row = $result->fetchArray())
 }
 ?>
 </table>
+<input type="submit" onClick="return PrivilegeClick()"  name="grant_privilege" value="Grant admin privilege"/>
+<input type="submit" onClick="return PrivilegeClick()"  name="revoke_privilege" value="Revoke admin privilege"/>
+<input type="submit" onClick="return DeleteClick()"  name="delete_member" value="Delete"/>
+</form>
