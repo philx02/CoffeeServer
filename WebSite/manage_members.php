@@ -22,10 +22,8 @@ function member_addition($dbHandle, $name, $username, $rfid, $initialDeposit)
   //echo $stmt."<br/>";
   if ($dbHandle->exec($stmt))
   {
-    $stmt = "SELECT id FROM members WHERE username = '".$rfid."'";
-    $memberid = $dbHandle->querySingle($stmt);
-    $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) VALUES (datetime('now', 'localtime'), ".$memberid.", 0, ".$initialDepositCents.")";
-    echo $stmt."<br/>";
+    $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) SELECT datetime('now', 'localtime'), id, 0, ".$initialDepositCents." FROM members WHERE userid = '".$rfid."'";
+    //echo $stmt."<br/>";
     if ($dbHandle->exec($stmt))
     {
       echo "<p>Addition of user ".$name." completed successfully.</p>";
