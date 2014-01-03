@@ -2,7 +2,7 @@
 var DeleteHit = false;
 var RadioHit = false;
 var PrivilegeHit = false;
-function ConfirmDelete()
+function ConfirmAction()
 {
   if (RadioHit)
   {
@@ -106,7 +106,7 @@ else if (array_key_exists("delete_member", $_POST))
 <p>Members management</p>
 
 <a href="add_member.php">Add member</a>
-<form action="manage_members.php" onSubmit="return ConfirmDelete()"  method="post">
+<form action="manage_members.php" onSubmit="return ConfirmAction()"  method="post">
 <table border="1">
 <tr>
 <th width="25">&nbsp;</th>
@@ -122,13 +122,13 @@ while ($row = $result->fetchArray())
   echo "<tr>";
   echo "<td><input onClick=\"return RadioClick()\" type='radio' name='memberid' value='".$row["id"]."' /></td>";
   echo "<td>".$row["name"]."</td>";
-  echo "<td>".number_format((float)abs($row["balance_cents"]/100), 2)."</td>";
+  echo "<td>".number_format((float)$row["balance_cents"]/100, 2)."</td>";
   echo "<td>".$row["admin"]."</td>";
   echo "</tr>";
 }
 ?>
 </table>
-<input type="submit" onClick="return PrivilegeClick()"  name="grant_privilege" value="Grant admin privilege"/>
-<input type="submit" onClick="return PrivilegeClick()"  name="revoke_privilege" value="Revoke admin privilege"/>
-<input type="submit" onClick="return DeleteClick()"  name="delete_member" value="Delete"/>
+<input type="submit" onClick="return PrivilegeClick()" name="grant_privilege" value="Grant admin privilege"/>
+<input type="submit" onClick="return PrivilegeClick()" name="revoke_privilege" value="Revoke admin privilege"/>
+<input type="submit" onClick="return DeleteClick()" name="delete_member" value="Delete"/>
 </form>
