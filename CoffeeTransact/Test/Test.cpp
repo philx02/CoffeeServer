@@ -11,6 +11,6 @@ int main(int argc, const char *argv[])
 {
   CoffeeTransact wCoffeeTransact(argv[1]);
   test(wCoffeeTransact, "Bozo the clown");
-  test(wCoffeeTransact, "0123456789");
+  test(wCoffeeTransact, "123456789");
   return 0;
 }
