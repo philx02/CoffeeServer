@@ -2,9 +2,8 @@
 include("header.php");
 $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
 
-function member_addition($dbHandle, $name, $username, $rfid, $initialDeposit)
+function member_addition($dbHandle, $name, $username, $email, $rfid, $initialDeposit)
 {
-  $email = $username."@cae.com";
   if (!filter_var($email, FILTER_VALIDATE_EMAIL))
   {
     echo "<p>Invalid value for email address (".$email.").</p>";
@@ -26,6 +25,7 @@ function member_addition($dbHandle, $name, $username, $rfid, $initialDeposit)
     //echo $stmt."<br/>";
     if ($dbHandle->exec($stmt))
     {
+      mail($name." <".$email.">", "Welcome to the coffee club", "Your password is: ".$password);
       echo "<p>Addition of member ".$name." completed successfully.</p>";
     }
   }
@@ -33,7 +33,7 @@ function member_addition($dbHandle, $name, $username, $rfid, $initialDeposit)
 
 if (array_key_exists("ac", $_POST) && $_POST["ac"] == "member_addition")
 {
-  member_addition($dbHandle, $_POST["name"], $_POST["username"], $_POST["rfid"], $_POST["initial_deposit"]);
+  member_addition($dbHandle, $_POST["name"], $_POST["username"], $_POST["email"], $_POST["rfid"], $_POST["initial_deposit"]);
 }
 ?>
 
@@ -41,20 +41,10 @@ if (array_key_exists("ac", $_POST) && $_POST["ac"] == "member_addition")
 
 <form action="add_member.php" method="post">
 <input type="hidden" name="ac" value="member_addition">
-<table>
-<tr>
-<td>Name</td>
-<td>Username</td>
-<td>RFID</td>
-<td>Initial deposit</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td><input type="text" name="name" /></td>
-<td><input type="text" name="username" /></td>
-<td><input type="text" name="rfid" /></td>
-<td><input type="text" name="initial_deposit" /></td>
-<td><input type="submit" name="Submit" /></td>
-</tr>
-</table>
+<p>Name<br/><input type="text" size="50" name="name" /></p>
+<p>Email<br/><input type="text" size="50" name="email" /></p>
+<p>Username<br/><input type="text" name="username" /></p>
+<p>RFID<br/><input type="text" name="rfid" /></p>
+<p>Initial deposit<br/><input type="text" name="initial_deposit" /></p>
+<p><input type="submit" name="Submit" /></p>
 </form>

@@ -23,13 +23,15 @@ $workingCapitalCents = $dbHandle->querySingle($stmt);
 </tr>
 <tr>
 <td width="150" valign="top">
+<table>
 <p><a href="transaction_history.php?<?php echo "memberid=".$_SESSION["id_logged"]; ?>" target="inlineframe">Transaction History</a></p>
+<p><a href="change_password.php" target="inlineframe">Change Password</a></p>
 <p><a href="logout.php">Logout</a></p>
-<hr>
 <?php
 if (array_key_exists("admin", $_SESSION) && $_SESSION["admin"] == 1)
 {
   echo <<<EOT
+<hr/>
 <p><a href="add_member.php" target="inlineframe">Add Member</a></p>
 <p><a href="manage_members.php" target="inlineframe">Manage Members</a></p>
 <p><a href="member_deposit.php" target="inlineframe">Member Deposit</a></p>
@@ -37,6 +39,7 @@ if (array_key_exists("admin", $_SESSION) && $_SESSION["admin"] == 1)
 EOT;
 }
 ?>
+</table>
 </td>
 <td>
 <iframe name="inlineframe" src="transaction_history.php?<?php echo "memberid=".$_SESSION["id_logged"]; ?>" frameborder="0" scrolling="auto" width="100%" height="1000" marginwidth=5 marginheight=5></iframe> 
