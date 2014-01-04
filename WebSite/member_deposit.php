@@ -14,7 +14,7 @@ if (array_key_exists("ac", $_POST))
       //echo $stmt."<br/>";
       if ($dbHandle->exec($stmt))
       {
-        $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) VALUES (datetime('now', 'localtime'), ".$_POST["memberid"].", 0, ".$amount_cents.")";
+        $stmt = "INSERT INTO transactions (date_time, member_id, transaction_type, amount_cents) VALUES (datetime('now', 'localtime'), ".$_POST["memberid"].", 2, ".$amount_cents.")";
         //echo $stmt."<br/>";
         if ($dbHandle->exec($stmt))
         {

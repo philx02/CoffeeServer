@@ -3,7 +3,7 @@ class CoffeeDb extends SQLite3
 {
   function __construct()
   {
-    $this->open('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+    $this->open('../database/coffee.db', SQLITE3_OPEN_READWRITE);
     $this->exec("PRAGMA foreign_keys = ON");
   }
 }
