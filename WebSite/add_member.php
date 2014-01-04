@@ -1,6 +1,6 @@
 <?php
 include("header.php");
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 
 function member_addition($dbHandle, $name, $username, $email, $rfid, $initialDeposit)
 {

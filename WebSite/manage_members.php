@@ -54,7 +54,7 @@ function PrivilegeClick()
 
 <?php
 include("header.php");
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 
 function grant_admin($dbHandle, $memberId)
 {
@@ -80,6 +80,7 @@ function revoke_admin($dbHandle, $memberId)
 
 function delete_member($dbHandle, $memberId)
 {
+  echo $dbHandle->querySingle("PRAGMA foreign_keys")."<br/>";
   $stmt = "SELECT name, balance_cents FROM members WHERE id = ".$memberId;
   $result = $dbHandle->querySingle($stmt, true);
   $stmt = "DELETE FROM members WHERE id = ".$memberId;

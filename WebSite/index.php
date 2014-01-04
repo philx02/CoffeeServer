@@ -1,10 +1,12 @@
 <?php
+include("CoffeeDb.php");
+
 session_start();
 
 if (array_key_exists("ac", $_POST) && $_POST["ac"] == "log")
 {
   /// do after login form is submitted
-  $dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+  $dbHandle = new CoffeeDb();
   $stmt = "SELECT id, password, admin FROM members WHERE username = '".$_POST["username"]."'";
   $result = $dbHandle->querySingle($stmt, true);
   $shaPasswordFromDb = $result["password"];
