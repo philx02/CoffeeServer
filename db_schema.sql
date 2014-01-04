@@ -27,6 +27,7 @@ CREATE TABLE transactions
   transaction_type INTEGER NOT NULL,
   amount_cents INTEGER NOT NULL,
   FOREIGN KEY (member_id) REFERENCES members (id) ON DELETE CASCADE
+  FOREIGN KEY (transaction_type) REFERENCES transactions_name (transaction_type) ON DELETE SET NULL
 );
 
 CREATE TABLE transactions_name
@@ -36,9 +37,11 @@ CREATE TABLE transactions_name
   name TEXT NOT NULL
 );
 
-INSERT INTO members VALUES(1,123456789,'cayouette','9a73ee8196e7bde96471721da72a708d10e86c0d','Philippe Cayouette','philippe.cayouette@cae.com',0,1);
-INSERT INTO transactions_name VALUES (1,0,'Deposit');
+INSERT INTO transactions_name VALUES (1,0,'Initial deposit');
 INSERT INTO transactions_name VALUES (2,1,'Coffee purchase');
+INSERT INTO transactions_name VALUES (3,2,'Deposit');
 INSERT INTO numeric_parameters VALUES(1,'unit_cost_cents',10);
+INSERT INTO members VALUES(1,123456789,'cayouette','9a73ee8196e7bde96471721da72a708d10e86c0d','Philippe Cayouette','philippe.cayouette@cae.com',1000,1);
+INSERT INTO transactions SELECT 1, datetime('now', 'localtime'), 1, 0, 1000;
 
 COMMIT;
