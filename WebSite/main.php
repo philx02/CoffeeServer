@@ -7,7 +7,7 @@ include("header.php");
 <tr>
 <td width=* colspan=2>
 <?php
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 $stmt = "SELECT balance_cents FROM members WHERE id = ".$_SESSION["id_logged"];
 $userBalanceCents = $dbHandle->querySingle($stmt);
 $stmt = "SELECT sum(balance_cents) FROM members";

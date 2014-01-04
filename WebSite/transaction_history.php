@@ -1,7 +1,7 @@
 <?php
 include("header.php");
 
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 $stmt = "SELECT name FROM members WHERE id = ".$_GET["memberid"];
 $result = $dbHandle->querySingle($stmt);
 ?>

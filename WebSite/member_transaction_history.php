@@ -14,7 +14,7 @@ include("header.php");
 <td>
 <select name="memberid">
 <?php
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 $stmt = "SELECT id, name FROM members";
 $result = $dbHandle->query($stmt);
 while ($row = $result->fetchArray())

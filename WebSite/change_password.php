@@ -1,6 +1,6 @@
 <?php
 include("header.php");
-$dbHandle = new SQLite3('../coffeedb/test.db', SQLITE3_OPEN_READWRITE);
+$dbHandle = new CoffeeDb();
 
 function change_password($dbHandle, $memberId, $oldPassword, $newPassword)
 {
