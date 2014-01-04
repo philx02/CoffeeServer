@@ -80,7 +80,6 @@ function revoke_admin($dbHandle, $memberId)
 
 function delete_member($dbHandle, $memberId)
 {
-  echo $dbHandle->querySingle("PRAGMA foreign_keys")."<br/>";
   $stmt = "SELECT name, balance_cents FROM members WHERE id = ".$memberId;
   $result = $dbHandle->querySingle($stmt, true);
   $stmt = "DELETE FROM members WHERE id = ".$memberId;
