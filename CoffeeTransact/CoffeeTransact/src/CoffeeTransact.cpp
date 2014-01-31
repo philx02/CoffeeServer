@@ -67,6 +67,12 @@ public:
     }
   }
 
+  inline bool validate(const char *iUserId) const
+  {
+    Statement wStatement(mSqlite, std::string("SELECT userid FROM members WHERE userid = \"").append(iUserId).append("\" LIMIT 1;"));
+    return wStatement.runOnce() == SQLITE_ROW;
+  }
+
   inline bool validateAndPerform(const char *iUserId) const
   {
     auto wUnitCostCents = getUnitCostCents();
@@ -109,6 +115,11 @@ CoffeeTransact::CoffeeTransact(const char *iDatabase)
 
 CoffeeTransact::~CoffeeTransact()
 {
+}
+
+bool CoffeeTransact::validate(const char *iUserId) const
+{
+  return mImpl->validate(iUserId);
 }
 
 bool CoffeeTransact::validateAndPerform(const char *iUserId) const

@@ -5,3 +5,6 @@ Debug/*
 test.db
 *.opensdf
 *.vcxproj.user
+bin/*
+lib/*
+obj/*
