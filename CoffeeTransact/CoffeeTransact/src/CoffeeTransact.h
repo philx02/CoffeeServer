@@ -20,6 +20,7 @@ public:
   CoffeeTransact(const char *iDatabase);
   ~CoffeeTransact();
 
+  bool validate(const char *iUserId) const;
   bool validateAndPerform(const char *iUserId) const;
 
 private:

@@ -13,27 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\sqlite">
-      <UniqueIdentifier>{b80122c0-f7a8-41d6-b98d-a0e088184e40}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CoffeeTransact.cpp">
+    <ClCompile Include="src\CoffeeDaemon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\sqlite\sqlite3.c">
-      <Filter>Source Files\sqlite</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\sqlite\sqlite3.h">
-      <Filter>Source Files\sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CoffeeTransact.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DllSwitch.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
